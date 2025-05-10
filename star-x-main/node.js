@@ -41,6 +41,17 @@ function isBrowser(userAgent) {
     return browserRegex.test(userAgent);
   }
   
+app.get('/rivals.lua', (req, res) => {
+  const filePath = path.join(__dirname, 'rivals.lua');
+  fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading rivals.lua:', err);
+      return res.status(500).send('Internal Server Error');
+    }
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(data);
+  });
+});
 
 app.get('/get-key', getKeyLimiter, async (req, res) => {
     const referrer = req.get('referer') || '';
